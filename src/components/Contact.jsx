@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import '../styles/Contact.css'
 
 export default function Contact() {
@@ -20,40 +21,67 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Simulate form submission
     console.log('Form submitted:', formData)
     setSubmitStatus('success')
     setFormData({ name: '', email: '', message: '' })
     setTimeout(() => setSubmitStatus(null), 3000)
   }
 
+  const contactLinks = [
+    { icon: '✉️', label: 'Email', href: 'mailto:malcolmroger219@gmail.com', text: 'malcolmroger219@gmail.com' },
+    { icon: '🐙', label: 'GitHub', href: 'https://github.com/rogerrrmalcolm', text: 'github.com/rogerrrmalcolm' },
+    { icon: '💼', label: 'LinkedIn', href: 'https://www.linkedin.com/in/rogermalcolm', text: 'linkedin.com/in/rogermalcolm' },
+  ]
+
   return (
     <section id="contact" className="contact">
       <div className="container">
-        <h2 className="section-title">Get In Touch</h2>
-        
+        <motion.h2
+          className="section-title"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Get In Touch
+        </motion.h2>
+
         <div className="contact-content">
-          <div className="contact-info">
+          <motion.div
+            className="contact-info"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
             <h3>Let's Connect</h3>
             <p>I'm always open to new opportunities and interesting conversations. Feel free to reach out!</p>
-            
-            <div className="contact-links">
-              <a href="mailto:malcolmroger219@gmail.com" className="contact-link">
-                <span className="link-icon">✉️</span>
-                <span>malcolmroger219@gmail.com</span>
-              </a>
-              <a href="https://github.com/rogerrrmalcolm" target="_blank" rel="noopener noreferrer" className="contact-link">
-                <span className="link-icon">🐙</span>
-                <span>github.com/rogerrrmalcolm</span>
-              </a>
-              <a href="https://www.linkedin.com/in/rogermalcolm" target="_blank" rel="noopener noreferrer" className="contact-link">
-                <span className="link-icon">💼</span>
-                <span>linkedin.com/in/rogermalcolm</span>
-              </a>
-            </div>
-          </div>
 
-          <form className="contact-form" onSubmit={handleSubmit}>
+            <div className="contact-links">
+              {contactLinks.map((link, index) => (
+                <motion.a
+                  key={index}
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="contact-link glass"
+                  whileHover={{ x: 10 }}
+                >
+                  <span className="link-icon">{link.icon}</span>
+                  <span>{link.text}</span>
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.form
+            className="contact-form glass"
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
@@ -93,16 +121,28 @@ export default function Contact() {
               ></textarea>
             </div>
 
-            <button type="submit" className="btn btn-primary">
+            <motion.button
+              type="submit"
+              className="btn btn-primary"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
               Send Message
-            </button>
+            </motion.button>
 
             {submitStatus === 'success' && (
-              <p className="success-message">Thanks for reaching out! I'll get back to you soon.</p>
+              <motion.p
+                className="success-message"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                Thanks for reaching out! I'll get back to you soon.
+              </motion.p>
             )}
-          </form>
+          </motion.form>
         </div>
       </div>
     </section>
   )
 }
+

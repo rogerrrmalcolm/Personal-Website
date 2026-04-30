@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import '../styles/Navigation.css'
 
 export default function Navigation({ activeSection, setActiveSection }) {
@@ -13,16 +14,27 @@ export default function Navigation({ activeSection, setActiveSection }) {
     }
   }
 
-  return (
-    <nav className="navbar">
-      <div className="nav-container">
-        <div className="nav-logo">
-          <span className="logo-icon">RM</span>
-          <span className="logo-text">Roger Malcolm</span>
-        </div>
+  const menuItems = ['home', 'about', 'projects', 'skills', 'contact']
 
-        <button 
-          className="menu-toggle"
+  return (
+    <motion.nav
+      className="navbar"
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="nav-container">
+        <motion.div
+          className="nav-logo"
+          whileHover={{ scale: 1.05 }}
+          onClick={() => scrollToSection('home')}
+        >
+          <span className="logo-icon">RM</span>
+          <span className="logo-text">Roger</span>
+        </motion.div>
+
+        <button
+          className={`menu-toggle ${isMenuOpen ? 'active' : ''}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -31,49 +43,50 @@ export default function Navigation({ activeSection, setActiveSection }) {
           <span></span>
         </button>
 
-        <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <li className="nav-item">
-            <button 
-              className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
-              onClick={() => scrollToSection('home')}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.ul
+              className="nav-menu mobile"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              Home
-            </button>
-          </li>
-          <li className="nav-item">
-            <button 
-              className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
-              onClick={() => scrollToSection('about')}
-            >
-              About
-            </button>
-          </li>
-          <li className="nav-item">
-            <button 
-              className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`}
-              onClick={() => scrollToSection('projects')}
-            >
-              Projects
-            </button>
-          </li>
-          <li className="nav-item">
-            <button 
-              className={`nav-link ${activeSection === 'skills' ? 'active' : ''}`}
-              onClick={() => scrollToSection('skills')}
-            >
-              Skills
-            </button>
-          </li>
-          <li className="nav-item">
-            <button 
-              className={`nav-link ${activeSection === 'contact' ? 'active' : ''}`}
-              onClick={() => scrollToSection('contact')}
-            >
-              Contact
-            </button>
-          </li>
+              {menuItems.map((item, index) => (
+                <motion.li
+                  key={item}
+                  className="nav-item"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <button
+                    className={`nav-link ${activeSection === item ? 'active' : ''}`}
+                    onClick={() => scrollToSection(item)}
+                  >
+                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                  </button>
+                </motion.li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+
+        <ul className="nav-menu desktop">
+          {menuItems.map((item) => (
+            <motion.li key={item} className="nav-item">
+              <button
+                className={`nav-link ${activeSection === item ? 'active' : ''}`}
+                onClick={() => scrollToSection(item)}
+                whileHover={{ y: -2 }}
+              >
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </button>
+            </motion.li>
+          ))}
         </ul>
       </div>
-    </nav>
+    </motion.nav>
   )
 }
+
