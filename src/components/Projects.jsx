@@ -6,28 +6,20 @@ export default function Projects() {
   const [projects] = useState([
     {
       id: 1,
-      title: "Project 1",
-      description: "Your project description will go here",
-      tech: ["Technology 1", "Technology 2"],
-      link: "#",
-      image: "🚀"
+      title: "Enrichment-Scoring",
+      description: "AI-powered prospect enrichment and scoring engine for LP fundraising. Ingests CSV contacts, deduplicates at org level, enriches with public evidence via OpenAI web search, and scores across weighted dimensions. Generates leaderboard, HTML reports, and cost analysis.",
+      tech: ["Python", "OpenAI API", "FastAPI", "SQLite", "Data Pipeline"],
+      link: "https://github.com/rogerrrmalcolm/Enrichment-Scoring",
+      image: "🎯"
     },
     {
       id: 2,
-      title: "Project 2",
-      description: "Your project description will go here",
-      tech: ["Technology 1", "Technology 2"],
-      link: "#",
-      image: "💡"
+      title: "Heart Rate Monitor",
+      description: "Biomedical engineering project combining embedded systems with GUI visualization. Real-time heart rate monitoring with Python-based GUI and C++ backend for sensor interfacing. Features data logging and live visualization capabilities.",
+      tech: ["Python", "C++", "Embedded Systems", "GUI", "PlatformIO"],
+      link: "https://github.com/varenr/HeartRateMonitor",
+      image: "❤️"
     },
-    {
-      id: 3,
-      title: "Project 3",
-      description: "Your project description will go here",
-      tech: ["Technology 1", "Technology 2"],
-      link: "#",
-      image: "⚡"
-    }
   ])
 
   const containerVariants = {
@@ -71,11 +63,15 @@ export default function Projects() {
           viewport={{ once: true }}
         >
           {projects.map((project) => (
-            <motion.div
+            <motion.a
               key={project.id}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="project-card glass"
               variants={itemVariants}
               whileHover={{ y: -10 }}
+              style={{ textDecoration: 'none' }}
             >
               <div className="project-header">
                 <motion.span
@@ -99,29 +95,19 @@ export default function Projects() {
                     </motion.span>
                   ))}
                 </div>
-                <motion.a
-                  href={project.link}
+                <motion.div
                   className="project-link"
                   whileHover={{ x: 10 }}
                 >
-                  View Project →
-                </motion.a>
+                  View on GitHub →
+                </motion.div>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </motion.div>
-
-        <motion.p
-          className="projects-note glass"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.8 }}
-        >
-          💡 Ready to add your projects! Just provide the details and I'll update this section.
-        </motion.p>
       </div>
     </section>
   )
 }
+
 
