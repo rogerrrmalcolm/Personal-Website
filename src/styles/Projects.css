@@ -1,0 +1,135 @@
+.projects {
+  padding: 100px 0;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.project-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.project-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+  transform: translateY(-10px);
+}
+
+.project-header {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.project-icon {
+  font-size: 3rem;
+}
+
+.project-content {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+}
+
+.project-title {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.project-description {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  flex: 1;
+  margin: 0;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tech-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  transition: var(--transition);
+}
+
+.tech-badge:hover {
+  background-color: rgba(99, 102, 241, 0.2);
+  border-color: var(--primary-color);
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  transition: var(--transition);
+}
+
+.project-link:hover {
+  gap: 12px;
+  color: var(--secondary-color);
+}
+
+.projects-note {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  padding: 30px;
+  background-color: rgba(99, 102, 241, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  .projects {
+    padding: 60px 0;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .project-header {
+    padding: 30px;
+    min-height: 120px;
+  }
+
+  .project-icon {
+    font-size: 2.5rem;
+  }
+
+  .project-content {
+    padding: 20px;
+  }
+}
