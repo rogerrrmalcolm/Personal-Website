@@ -14,7 +14,7 @@ export default function Navigation({ activeSection, setActiveSection }) {
     }
   }
 
-  const menuItems = ['home', 'about', 'projects', 'skills', 'contact']
+  const menuItems = ['home', 'about', 'projects', 'focus', 'skills', 'contact']
 
   return (
     <motion.nav
@@ -60,12 +60,12 @@ export default function Navigation({ activeSection, setActiveSection }) {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <button
+                  <motion.button
                     className={`nav-link ${activeSection === item ? 'active' : ''}`}
                     onClick={() => scrollToSection(item)}
                   >
                     {item.charAt(0).toUpperCase() + item.slice(1)}
-                  </button>
+                  </motion.button>
                 </motion.li>
               ))}
             </motion.ul>
@@ -75,13 +75,13 @@ export default function Navigation({ activeSection, setActiveSection }) {
         <ul className="nav-menu desktop">
           {menuItems.map((item) => (
             <motion.li key={item} className="nav-item">
-              <button
+              <motion.button
                 className={`nav-link ${activeSection === item ? 'active' : ''}`}
                 onClick={() => scrollToSection(item)}
                 whileHover={{ y: -2 }}
               >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
-              </button>
+              </motion.button>
             </motion.li>
           ))}
         </ul>

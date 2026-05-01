@@ -19,8 +19,8 @@ export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
+    const handleMouseMove = (event) => {
+      setMousePosition({ x: event.clientX, y: event.clientY })
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -67,8 +67,8 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
           >
             Exploring the intersection of <span className="gradient-text">AI</span> and{' '}
-            <span className="gradient-text">business operations</span>. Building innovative solutions
-            through code, creativity, and curiosity.
+            <span className="gradient-text">business operations</span>. Building practical systems
+            through code, curiosity, and engineering discipline.
           </motion.p>
 
           <motion.div
@@ -97,7 +97,7 @@ export default function Hero() {
               transition={{ repeat: Infinity, duration: 2 }}
               className="scroll-arrow"
             >
-              ↓
+              &darr;
             </motion.div>
           </motion.div>
         </div>
@@ -108,55 +108,32 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          <motion.div
-            className="floating-orb orb-1"
-            animate={{
-              y: [0, -30, 0],
-              x: [0, 20, 0],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          />
-
-          <motion.div
-            className="floating-orb orb-2"
-            animate={{
-              y: [0, 40, 0],
-              x: [0, -30, 0],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 1,
-            }}
-          />
-
-          <motion.div
-            className="floating-orb orb-3"
-            animate={{
-              y: [0, -20, 0],
-              x: [0, -20, 0],
-            }}
-            transition={{
-              duration: 7,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 0.5,
-            }}
-          />
-
-          <div className="hero-card glass">
-            <div className="card-icon">💡</div>
-            <h3>Innovative</h3>
-            <p>Thinking beyond boundaries</p>
+          <div className="hero-panel glass" aria-label="Portfolio focus areas">
+            <div className="panel-topline">
+              <span>Portfolio System</span>
+              <span className="panel-status">Live</span>
+            </div>
+            <div className="panel-body">
+              <div className="signal-row">
+                <span>AI operations</span>
+                <strong>Scoring + automation</strong>
+              </div>
+              <div className="signal-row">
+                <span>Engineering</span>
+                <strong>Embedded + data systems</strong>
+              </div>
+              <div className="signal-row">
+                <span>Frontend</span>
+                <strong>React experiences</strong>
+              </div>
+            </div>
+            <div className="panel-command">
+              <span className="command-prompt">&gt;</span>
+              building practical software with measurable outcomes
+            </div>
           </div>
         </motion.div>
       </div>
     </section>
   )
 }
-

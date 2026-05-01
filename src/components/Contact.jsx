@@ -6,31 +6,37 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   })
 
   const [submitStatus, setSubmitStatus] = useState(null)
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }))
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const subject = encodeURIComponent(`Portfolio message from ${formData.name}`)
+    const body = encodeURIComponent(
+      `${formData.message}\n\nFrom: ${formData.name}\nEmail: ${formData.email}`,
+    )
+
+    window.location.href = `mailto:malcolmroger219@gmail.com?subject=${subject}&body=${body}`
     setSubmitStatus('success')
     setFormData({ name: '', email: '', message: '' })
     setTimeout(() => setSubmitStatus(null), 3000)
   }
 
   const contactLinks = [
-    { icon: '✉️', label: 'Email', href: 'mailto:malcolmroger219@gmail.com', text: 'malcolmroger219@gmail.com' },
-    { icon: '🐙', label: 'GitHub', href: 'https://github.com/rogerrrmalcolm', text: 'github.com/rogerrrmalcolm' },
-    { icon: '💼', label: 'LinkedIn', href: 'https://www.linkedin.com/in/rogermalcolm', text: 'linkedin.com/in/rogermalcolm' },
+    { icon: 'EM', label: 'Email', href: 'mailto:malcolmroger219@gmail.com', text: 'malcolmroger219@gmail.com' },
+    { icon: 'GH', label: 'GitHub', href: 'https://github.com/rogerrrmalcolm', text: 'github.com/rogerrrmalcolm' },
+    { icon: 'IN', label: 'LinkedIn', href: 'https://www.linkedin.com/in/rogermalcolm', text: 'linkedin.com/in/rogermalcolm' },
   ]
 
   return (
@@ -55,12 +61,15 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
           >
             <h3>Let's Connect</h3>
-            <p>I'm always open to new opportunities and interesting conversations. Feel free to reach out!</p>
+            <p>
+              I am open to internships, project collaborations, and conversations around AI,
+              engineering, and business operations.
+            </p>
 
             <div className="contact-links">
-              {contactLinks.map((link, index) => (
+              {contactLinks.map((link) => (
                 <motion.a
-                  key={index}
+                  key={link.label}
                   href={link.href}
                   target={link.href.startsWith('http') ? '_blank' : undefined}
                   rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
@@ -68,7 +77,10 @@ export default function Contact() {
                   whileHover={{ x: 10 }}
                 >
                   <span className="link-icon">{link.icon}</span>
-                  <span>{link.text}</span>
+                  <span className="link-text">
+                    <strong>{link.label}</strong>
+                    {link.text}
+                  </span>
                 </motion.a>
               ))}
             </div>
@@ -118,7 +130,7 @@ export default function Contact() {
                 required
                 placeholder="Your message"
                 rows="5"
-              ></textarea>
+              />
             </div>
 
             <motion.button
@@ -127,7 +139,7 @@ export default function Contact() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Send Message
+              Open Email Draft
             </motion.button>
 
             {submitStatus === 'success' && (
@@ -136,7 +148,7 @@ export default function Contact() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                Thanks for reaching out! I'll get back to you soon.
+                Your email draft is ready to send.
               </motion.p>
             )}
           </motion.form>
@@ -145,4 +157,3 @@ export default function Contact() {
     </section>
   )
 }
-

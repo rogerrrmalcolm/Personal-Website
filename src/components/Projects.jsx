@@ -1,27 +1,37 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import '../styles/Projects.css'
 
-export default function Projects() {
-  const [projects] = useState([
-    {
-      id: 1,
-      title: "Enrichment-Scoring",
-      description: "AI-powered prospect enrichment and scoring engine for LP fundraising. Ingests CSV contacts, deduplicates at org level, enriches with public evidence via OpenAI web search, and scores across weighted dimensions. Generates leaderboard, HTML reports, and cost analysis.",
-      tech: ["Python", "OpenAI API", "FastAPI", "SQLite", "Data Pipeline"],
-      link: "https://github.com/rogerrrmalcolm/Enrichment-Scoring",
-      image: "🎯"
-    },
-    {
-      id: 2,
-      title: "Heart Rate Monitor",
-      description: "Biomedical engineering project combining embedded systems with GUI visualization. Real-time heart rate monitoring with Python-based GUI and C++ backend for sensor interfacing. Features data logging and live visualization capabilities.",
-      tech: ["Python", "C++", "Embedded Systems", "GUI", "PlatformIO"],
-      link: "https://github.com/varenr/HeartRateMonitor",
-      image: "❤️"
-    },
-  ])
+const projects = [
+  {
+    id: 1,
+    title: 'Enrichment-Scoring',
+    description:
+      'AI-powered prospect enrichment and scoring engine for LP fundraising. Ingests CSV contacts, deduplicates at the organization level, enriches with public evidence, and scores across weighted dimensions.',
+    tech: ['Python', 'OpenAI API', 'FastAPI', 'SQLite', 'Data Pipeline'],
+    link: 'https://github.com/rogerrrmalcolm/Enrichment-Scoring',
+    image: 'ES',
+  },
+  {
+    id: 2,
+    title: 'Heart Rate Monitor',
+    description:
+      'Biomedical engineering project combining embedded systems with GUI visualization. The system supports real-time heart rate monitoring, data logging, and live visualization.',
+    tech: ['Python', 'C++', 'Embedded Systems', 'GUI', 'PlatformIO'],
+    link: 'https://github.com/varenr/HeartRateMonitor',
+    image: 'HR',
+  },
+  {
+    id: 3,
+    title: 'Personal Website',
+    description:
+      'A React portfolio built with Vite and Framer Motion. The site presents projects, technical focus areas, contact links, and a polished responsive experience.',
+    tech: ['React', 'Vite', 'Framer Motion', 'CSS'],
+    link: 'https://github.com/rogerrrmalcolm/Personal-Website',
+    image: 'RM',
+  },
+]
 
+export default function Projects() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -74,10 +84,7 @@ export default function Projects() {
               style={{ textDecoration: 'none' }}
             >
               <div className="project-header">
-                <motion.span
-                  className="project-icon"
-                  whileHover={{ scale: 1.2, rotate: 10 }}
-                >
+                <motion.span className="project-icon" whileHover={{ scale: 1.08 }}>
                   {project.image}
                 </motion.span>
               </div>
@@ -85,21 +92,14 @@ export default function Projects() {
                 <h3 className="project-title">{project.title}</h3>
                 <p className="project-description">{project.description}</p>
                 <div className="project-tech">
-                  {project.tech.map((tech, index) => (
-                    <motion.span
-                      key={index}
-                      className="tech-badge"
-                      whileHover={{ scale: 1.1 }}
-                    >
+                  {project.tech.map((tech) => (
+                    <motion.span key={tech} className="tech-badge" whileHover={{ scale: 1.05 }}>
                       {tech}
                     </motion.span>
                   ))}
                 </div>
-                <motion.div
-                  className="project-link"
-                  whileHover={{ x: 10 }}
-                >
-                  View on GitHub →
+                <motion.div className="project-link" whileHover={{ x: 10 }}>
+                  View on GitHub &rarr;
                 </motion.div>
               </div>
             </motion.a>
@@ -109,5 +109,3 @@ export default function Projects() {
     </section>
   )
 }
-
-
