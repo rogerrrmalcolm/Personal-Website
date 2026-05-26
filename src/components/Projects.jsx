@@ -4,7 +4,16 @@ import '../styles/Projects.css'
 const projects = [
   {
     id: 1,
-    title: 'Enrichment-Scoring',
+    title: 'Bastion',
+    description:
+      'An AI-powered M&A diligence workspace that coordinates specialist agents across market, financial, risk, and memo workstreams to produce investment-committee-style analysis.',
+    tech: ['FastAPI', 'Gemini', 'Three.js', 'Amazon S3', 'Multi-Agent AI'],
+    link: 'https://github.com/rogerrrmalcolm/Bastion',
+    image: 'BA',
+  },
+  {
+    id: 2,
+    title: 'Prospect Enrichment Engine',
     description:
       'AI-powered prospect enrichment and scoring engine for LP fundraising. Ingests CSV contacts, deduplicates at the organization level, enriches with public evidence, and scores across weighted dimensions.',
     tech: ['Python', 'OpenAI API', 'FastAPI', 'SQLite', 'Data Pipeline'],
@@ -12,7 +21,7 @@ const projects = [
     image: 'ES',
   },
   {
-    id: 2,
+    id: 3,
     title: 'Heart Rate Monitor',
     description:
       'Biomedical engineering project combining embedded systems with GUI visualization. The system supports real-time heart rate monitoring, data logging, and live visualization.',
@@ -21,7 +30,7 @@ const projects = [
     image: 'HR',
   },
   {
-    id: 3,
+    id: 4,
     title: 'Personal Website',
     description:
       'A React portfolio built with Vite and Framer Motion. The site presents projects, technical focus areas, contact links, and a polished responsive experience.',
