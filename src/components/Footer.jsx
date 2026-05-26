@@ -12,6 +12,7 @@ export default function Footer() {
         </div>
         <nav className="footer-links" aria-label="Footer">
           <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
           <a href="#about">About</a>
           <a href="https://github.com/rogerrrmalcolm" target="_blank" rel="noopener noreferrer">
             GitHub

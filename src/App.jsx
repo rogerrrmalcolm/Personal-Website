@@ -4,6 +4,7 @@ import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import About from './components/About'
 import Projects from './components/Projects'
+import Experience from './components/Experience'
 import Focus from './components/Focus'
 import Skills from './components/Skills'
 import Contact from './components/Contact'
@@ -13,7 +14,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
 
   useEffect(() => {
-    const sections = ['home', 'projects', 'about', 'focus', 'skills', 'contact']
+    const sections = ['home', 'projects', 'experience', 'about', 'focus', 'skills', 'contact']
       .map((id) => document.getElementById(id))
       .filter(Boolean)
 
@@ -44,6 +45,7 @@ function App() {
       <main>
         <Hero />
         <Projects />
+        <Experience />
         <About />
         <Focus />
         <Skills />

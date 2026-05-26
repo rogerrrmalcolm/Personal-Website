@@ -44,7 +44,7 @@ export default function Navigation({ activeSection, setActiveSection }) {
     }
   }
 
-  const menuItems = ['home', 'projects', 'about', 'focus', 'skills', 'contact']
+  const menuItems = ['home', 'projects', 'experience', 'about', 'focus', 'skills', 'contact']
 
   return (
     <motion.nav
