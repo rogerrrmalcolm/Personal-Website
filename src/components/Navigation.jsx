@@ -14,7 +14,7 @@ export default function Navigation({ activeSection, setActiveSection }) {
     }
   }
 
-  const menuItems = ['home', 'about', 'projects', 'focus', 'skills', 'contact']
+  const menuItems = ['home', 'projects', 'about', 'focus', 'skills', 'contact']
 
   return (
     <motion.nav
@@ -30,7 +30,7 @@ export default function Navigation({ activeSection, setActiveSection }) {
           onClick={() => scrollToSection('home')}
         >
           <span className="logo-icon">RM</span>
-          <span className="logo-text">Roger</span>
+          <span className="logo-text">Roger Malcolm</span>
         </motion.div>
 
         <button

@@ -3,117 +3,98 @@ import '../styles/Projects.css'
 
 const projects = [
   {
-    id: 1,
+    id: '01',
     title: 'Bastion',
+    category: 'AI / Due Diligence',
     description:
-      'An AI-powered M&A diligence workspace that coordinates specialist agents across market, financial, risk, and memo workstreams to produce investment-committee-style analysis.',
+      'An AI-powered M&A diligence workspace coordinating market, financial, risk, and memo agents to produce investment-committee-style analysis.',
     tech: ['FastAPI', 'Gemini', 'Three.js', 'Amazon S3', 'Multi-Agent AI'],
     link: 'https://github.com/rogerrrmalcolm/Bastion',
-    image: 'BA',
+    featured: true,
   },
   {
-    id: 2,
+    id: '02',
     title: 'Prospect Enrichment Engine',
+    category: 'AI / Data Pipeline',
     description:
-      'AI-powered prospect enrichment and scoring engine for LP fundraising. Ingests CSV contacts, deduplicates at the organization level, enriches with public evidence, and scores across weighted dimensions.',
-    tech: ['Python', 'OpenAI API', 'FastAPI', 'SQLite', 'Data Pipeline'],
+      'A prospect enrichment and scoring engine for LP fundraising that deduplicates organizations, researches public evidence, ranks leads, and exports decision-ready reporting.',
+    tech: ['Python', 'OpenAI API', 'FastAPI', 'SQLite', 'Reporting'],
     link: 'https://github.com/rogerrrmalcolm/Enrichment-Scoring',
-    image: 'ES',
+    featured: true,
   },
   {
-    id: 3,
+    id: '03',
     title: 'Heart Rate Monitor',
+    category: 'Embedded Systems',
     description:
-      'Biomedical engineering project combining embedded systems with GUI visualization. The system supports real-time heart rate monitoring, data logging, and live visualization.',
+      'A biomedical engineering project supporting real-time heart rate monitoring, data logging, and live visualization through embedded and desktop components.',
     tech: ['Python', 'C++', 'Embedded Systems', 'GUI', 'PlatformIO'],
     link: 'https://github.com/varenr/HeartRateMonitor',
-    image: 'HR',
   },
   {
-    id: 4,
+    id: '04',
     title: 'Personal Website',
+    category: 'Frontend',
     description:
-      'A React portfolio built with Vite and Framer Motion. The site presents projects, technical focus areas, contact links, and a polished responsive experience.',
+      'A responsive portfolio experience built to present software projects, technical interests, and contact details with a concise visual language.',
     tech: ['React', 'Vite', 'Framer Motion', 'CSS'],
     link: 'https://github.com/rogerrrmalcolm/Personal-Website',
-    image: 'RM',
   },
 ]
 
 export default function Projects() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
-
   return (
     <section id="projects" className="projects">
       <div className="container">
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: -20 }}
+        <motion.div
+          className="section-heading projects-heading"
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          Featured Projects
-        </motion.h2>
+          <p className="section-kicker">Projects</p>
+          <h2 className="section-title">Selected work.</h2>
+          <p className="section-summary">
+            Product-focused software spanning AI workflow orchestration, research automation,
+            embedded engineering, and interface development.
+          </p>
+        </motion.div>
 
-        <motion.div
-          className="projects-grid"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {projects.map((project) => (
+        <div className="projects-grid">
+          {projects.map((project, index) => (
             <motion.a
               key={project.id}
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="project-card glass"
-              variants={itemVariants}
-              whileHover={{ y: -10 }}
-              style={{ textDecoration: 'none' }}
+              className={`project-card ${project.featured ? 'featured' : ''}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: index * 0.06 }}
             >
-              <div className="project-header">
-                <motion.span className="project-icon" whileHover={{ scale: 1.08 }}>
-                  {project.image}
-                </motion.span>
+              <div className="project-meta">
+                <span className="project-number">{project.id}</span>
+                <span className="project-category">{project.category}</span>
               </div>
               <div className="project-content">
                 <h3 className="project-title">{project.title}</h3>
                 <p className="project-description">{project.description}</p>
-                <div className="project-tech">
-                  {project.tech.map((tech) => (
-                    <motion.span key={tech} className="tech-badge" whileHover={{ scale: 1.05 }}>
-                      {tech}
-                    </motion.span>
-                  ))}
-                </div>
-                <motion.div className="project-link" whileHover={{ x: 10 }}>
-                  View on GitHub &rarr;
-                </motion.div>
               </div>
+              <div className="project-tech">
+                {project.tech.map((tech) => (
+                  <span key={tech} className="tech-badge">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <span className="project-link">
+                View Repository <span aria-hidden="true">&rarr;</span>
+              </span>
             </motion.a>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

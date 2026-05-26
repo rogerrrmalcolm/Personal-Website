@@ -12,7 +12,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
 
   useEffect(() => {
-    const sections = ['home', 'about', 'projects', 'focus', 'skills', 'contact']
+    const sections = ['home', 'projects', 'about', 'focus', 'skills', 'contact']
       .map((id) => document.getElementById(id))
       .filter(Boolean)
 
@@ -41,8 +41,8 @@ function App() {
       <Navigation activeSection={activeSection} setActiveSection={setActiveSection} />
       <main>
         <Hero />
-        <About />
         <Projects />
+        <About />
         <Focus />
         <Skills />
         <Contact />

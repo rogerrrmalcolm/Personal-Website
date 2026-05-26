@@ -1,78 +1,76 @@
 .focus {
-  background: linear-gradient(180deg, rgba(0, 240, 255, 0.015), rgba(255, 190, 11, 0.025));
-  padding: 120px 0;
+  border-top: 1px solid var(--border-color);
 }
 
 .focus-heading {
-  max-width: 820px;
-  margin: 0 auto 60px;
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(360px, 1fr);
+  align-items: end;
+  gap: clamp(44px, 10vw, 124px);
+  margin-bottom: 54px;
 }
 
 .focus-heading .section-title {
-  margin-bottom: 48px;
+  font-size: clamp(2.1rem, 4vw, 3rem);
 }
 
 .focus-intro {
   margin: 0;
-  color: var(--text-secondary);
-  font-size: 1.05rem;
-  line-height: 1.8;
+  font-size: 1rem;
+  line-height: 1.78;
 }
 
 .focus-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 40px;
-  align-items: stretch;
+  grid-template-columns: 1fr 330px;
+  gap: 14px;
 }
 
 .focus-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  gap: 14px;
 }
 
 .focus-card {
-  padding: 32px;
-  min-height: 280px;
+  min-height: 250px;
+  padding: 28px 24px;
   display: flex;
   flex-direction: column;
   gap: 22px;
-  transition: var(--transition);
+  transition: border-color var(--transition), background var(--transition);
 }
 
 .focus-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(0, 240, 255, 0.13);
+  border-color: var(--border-highlight);
+  background: var(--bg-tertiary);
 }
 
 .focus-label {
-  color: var(--accent-color);
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
 }
 
 .focus-card h3,
 .workflow-panel h3 {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.2rem;
+  font-size: 1.18rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
 }
 
 .focus-card p {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.75;
+  font-size: 0.9rem;
+  line-height: 1.7;
 }
 
 .workflow-panel {
-  border: 1px solid rgba(255, 190, 11, 0.22);
-  border-radius: 8px;
-  background: rgba(255, 190, 11, 0.06);
-  padding: 32px;
+  padding: 28px 25px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
 }
 
 .workflow-panel ol {
@@ -80,63 +78,44 @@
   counter-reset: workflow;
   display: grid;
   gap: 18px;
-  margin: 30px 0 0;
-  padding: 0;
+  margin-top: 32px;
 }
 
 .workflow-panel li {
   counter-increment: workflow;
-  color: var(--text-secondary);
   display: grid;
-  grid-template-columns: 36px 1fr;
+  grid-template-columns: 30px 1fr;
   gap: 14px;
-  align-items: center;
-  line-height: 1.5;
+  align-items: start;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .workflow-panel li::before {
-  content: counter(workflow);
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border-radius: 8px;
-  color: #0a0e27;
-  background: var(--accent-color);
-  font-weight: 800;
+  content: "0" counter(workflow);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
 }
 
-@media (max-width: 1180px) {
-  .focus-layout {
+@media (max-width: 1040px) {
+  .focus-layout,
+  .focus-heading {
     grid-template-columns: 1fr;
   }
 
-  .workflow-panel {
-    max-width: none;
+  .focus-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 760px) {
   .focus-grid {
     grid-template-columns: 1fr;
   }
 
   .focus-card {
     min-height: auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .focus {
-    padding: 80px 0;
-  }
-
-  .focus-heading {
-    margin-bottom: 40px;
-  }
-
-  .focus-card,
-  .workflow-panel {
-    padding: 24px;
   }
 }

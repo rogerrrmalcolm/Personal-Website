@@ -1,87 +1,54 @@
 import { motion } from 'framer-motion'
 import '../styles/About.css'
 
+const profile = [
+  { label: 'Discipline', value: 'Computer Engineering' },
+  { label: 'University', value: 'Toronto Metropolitan University' },
+  { label: 'Interest', value: 'AI systems and business operations' },
+]
+
 export default function About() {
-  const stats = [
-    { number: '3+', label: 'Years of Learning' },
-    { number: '10+', label: 'Projects Completed' },
-    { number: '5+', label: 'Technologies' },
-  ]
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
-
   return (
     <section id="about" className="about">
-      <div className="container">
-        <motion.h2
-          className="section-title"
-          initial={{ opacity: 0, y: -20 }}
+      <div className="container about-layout">
+        <motion.div
+          className="section-heading about-heading"
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          About Me
-        </motion.h2>
+          <p className="section-kicker">About</p>
+          <h2 className="section-title">Engineering with business context.</h2>
+        </motion.div>
 
-        <div className="about-content">
-          <motion.div
-            className="about-text"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+        <motion.div
+          className="about-body"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.08 }}
+        >
+          <div className="about-text">
             <p>
-              I'm a Computer Engineering student at Toronto Metropolitan University with a passion
-              for exploring the intersection of artificial intelligence and business operations.
+              I am a Computer Engineering student focused on building software at the intersection
+              of applied AI, data, and operational decision-making.
             </p>
             <p>
-              Currently, I'm focused on understanding how AI can transform business processes and
-              create meaningful value. I'm committed to continuous learning and building projects
-              that demonstrate my technical skills and innovative thinking.
+              My projects explore how technical systems can reduce manual effort, structure
+              information, and produce outputs that people can act on.
             </p>
-            <p>
-              When I'm not coding or studying, you'll find me exploring new technologies,
-              reading about AI trends, or working on side projects that challenge my problem-solving abilities.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="about-stats"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {stats.map((stat, index) => (
-              <motion.div key={index} className="stat glass" variants={itemVariants}>
-                <motion.h3 className="stat-number">
-                  {stat.number}
-                </motion.h3>
-                <p className="stat-label">{stat.label}</p>
-              </motion.div>
+          </div>
+          <dl className="about-facts">
+            {profile.map((fact) => (
+              <div className="fact" key={fact.label}>
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
             ))}
-          </motion.div>
-        </div>
+          </dl>
+        </motion.div>
       </div>
     </section>
   )
 }
-

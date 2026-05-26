@@ -34,15 +34,18 @@ export default function Focus() {
     <section id="focus" className="focus">
       <div className="container">
         <div className="focus-heading">
-          <motion.h2
-            className="section-title"
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Current Focus
-          </motion.h2>
+          <div>
+            <p className="section-kicker">Approach</p>
+            <motion.h2
+              className="section-title"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              Where I focus.
+            </motion.h2>
+          </div>
           <motion.p
             className="focus-intro"
             initial={{ opacity: 0, y: 20 }}
