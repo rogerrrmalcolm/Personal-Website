@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import AmbientBackground from './components/AmbientBackground'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -38,6 +39,7 @@ function App() {
 
   return (
     <div className="app">
+      <AmbientBackground />
       <Navigation activeSection={activeSection} setActiveSection={setActiveSection} />
       <main>
         <Hero />

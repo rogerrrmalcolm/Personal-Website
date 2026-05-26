@@ -7,6 +7,17 @@
   backdrop-filter: blur(16px);
 }
 
+.scroll-progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: var(--text-primary);
+  transform-origin: left;
+  transition: transform 80ms linear;
+}
+
 .nav-container {
   width: min(1200px, calc(100% - 48px));
   min-height: 76px;
@@ -33,6 +44,12 @@
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.08em;
+  transition: background var(--transition), color var(--transition);
+}
+
+.nav-logo:hover .logo-icon {
+  background: var(--text-primary);
+  color: var(--bg-color);
 }
 
 .logo-text {

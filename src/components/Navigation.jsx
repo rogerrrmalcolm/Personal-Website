@@ -1,9 +1,39 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import '../styles/Navigation.css'
 
 export default function Navigation({ activeSection, setActiveSection }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    let frameId
+
+    const updateProgress = () => {
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight
+      const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0
+      setScrollProgress(Math.min(Math.max(progress, 0), 1))
+      frameId = undefined
+    }
+
+    const handleScroll = () => {
+      if (!frameId) {
+        frameId = window.requestAnimationFrame(updateProgress)
+      }
+    }
+
+    updateProgress()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+      if (frameId) {
+        window.cancelAnimationFrame(frameId)
+      }
+    }
+  }, [])
 
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId)
@@ -86,6 +116,7 @@ export default function Navigation({ activeSection, setActiveSection }) {
           ))}
         </ul>
       </div>
+      <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
     </motion.nav>
   )
 }

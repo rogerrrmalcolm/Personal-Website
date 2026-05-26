@@ -2,6 +2,8 @@
   position: relative;
   display: flex;
   align-items: center;
+  flex-direction: column;
+  justify-content: center;
   min-height: calc(100vh - 76px);
   padding: 78px 0 96px;
   overflow: hidden;
@@ -20,6 +22,7 @@
     linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
   background-size: 42px 42px;
   mask-image: radial-gradient(ellipse, black 10%, transparent 68%);
+  animation: hero-grid-shift 16s ease-in-out infinite alternate;
 }
 
 .hero-content {
@@ -84,8 +87,21 @@
 }
 
 .selected-work {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--border-color);
   background: rgba(9, 9, 9, 0.88);
+}
+
+.selected-work::before {
+  position: absolute;
+  top: -65%;
+  right: -25%;
+  width: 270px;
+  height: 270px;
+  content: "";
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.07), transparent 68%);
+  pointer-events: none;
 }
 
 .selected-work-header {
@@ -98,6 +114,21 @@
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+.panel-signal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-signal i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.42);
+  animation: signal-pulse 2.8s ease-in-out infinite;
 }
 
 .work-row {
@@ -157,6 +188,75 @@
   line-height: 1.65;
 }
 
+.capability-rail {
+  width: min(1200px, calc(100% - 48px));
+  margin: 76px auto 0;
+  overflow: hidden;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(5, 5, 5, 0.5);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.rail-track {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  animation: rail-motion 26s linear infinite;
+}
+
+.rail-track span {
+  position: relative;
+  padding: 18px 44px;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rail-track span::after {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  content: "";
+  background: var(--border-highlight);
+  transform: translateY(-50%);
+}
+
+@keyframes hero-grid-shift {
+  from {
+    transform: translateY(-8px);
+    opacity: 0.32;
+  }
+  to {
+    transform: translateY(12px);
+    opacity: 0.5;
+  }
+}
+
+@keyframes signal-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes rail-motion {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @media (max-width: 960px) {
   .hero {
     min-height: auto;
@@ -186,6 +286,11 @@
     font-size: clamp(2.75rem, 15vw, 4.2rem);
   }
 
+  .capability-rail {
+    width: calc(100% - 32px);
+    margin-top: 48px;
+  }
+
   .hero-buttons {
     width: 100%;
   }
@@ -196,5 +301,13 @@
 
   .work-row {
     padding: 22px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid,
+  .panel-signal i,
+  .rail-track {
+    animation: none;
   }
 }

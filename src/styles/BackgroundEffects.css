@@ -1,0 +1,127 @@
+.background-effects {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(14px);
+  will-change: transform;
+}
+
+.ambient-glow-primary {
+  top: -14rem;
+  left: 8%;
+  width: min(70vw, 830px);
+  height: min(52vw, 580px);
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.11), transparent 68%);
+  animation: ambient-drift 18s ease-in-out infinite alternate;
+}
+
+.ambient-glow-secondary {
+  top: 34%;
+  right: -18rem;
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.045), transparent 67%);
+  animation: ambient-drift 24s ease-in-out infinite alternate-reverse;
+}
+
+.ambient-beam {
+  position: absolute;
+  top: -30%;
+  left: 65%;
+  width: 1px;
+  height: 86vh;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.16), transparent);
+  transform: rotate(24deg);
+  transform-origin: top center;
+  filter: blur(0.3px);
+  animation: beam-sweep 12s ease-in-out infinite alternate;
+}
+
+.ambient-orbit {
+  position: absolute;
+  top: 12vh;
+  right: -22rem;
+  width: 680px;
+  height: 680px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+.ambient-orbit::before,
+.ambient-orbit::after {
+  position: absolute;
+  inset: 70px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 50%;
+  content: "";
+}
+
+.ambient-orbit::after {
+  inset: 146px;
+}
+
+.ambient-orbit span {
+  position: absolute;
+  top: 110px;
+  left: 74px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.48);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.45);
+}
+
+.background-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.14) 0.6px, transparent 0.6px);
+  background-size: 4px 4px;
+  mask-image: radial-gradient(ellipse at top, black, transparent 68%);
+}
+
+@keyframes ambient-drift {
+  from {
+    transform: translate3d(-2%, -1%, 0) scale(0.98);
+  }
+  to {
+    transform: translate3d(4%, 6%, 0) scale(1.05);
+  }
+}
+
+@keyframes beam-sweep {
+  from {
+    opacity: 0.42;
+    transform: translateX(-44px) rotate(24deg);
+  }
+  to {
+    opacity: 0.8;
+    transform: translateX(54px) rotate(24deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .ambient-orbit {
+    opacity: 0.45;
+    right: -31rem;
+  }
+
+  .ambient-beam {
+    left: 84%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-glow,
+  .ambient-beam {
+    animation: none;
+  }
+}

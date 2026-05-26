@@ -22,12 +22,33 @@
   border: 1px solid var(--border-color);
   background: var(--bg-secondary);
   transition: border-color var(--transition), background var(--transition), transform var(--transition);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.project-card::after {
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(
+    360px circle at var(--pointer-x, 50%) var(--pointer-y, 0%),
+    rgba(255, 255, 255, 0.095),
+    transparent 56%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-slow);
 }
 
 .project-card:hover {
   border-color: var(--border-highlight);
   background: var(--bg-tertiary);
   transform: translateY(-2px);
+}
+
+.project-card:hover::after {
+  opacity: 1;
 }
 
 .project-card.featured {
@@ -43,6 +64,12 @@
   height: 2px;
   content: "";
   background: var(--text-primary);
+  z-index: 2;
+}
+
+.project-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .project-meta {

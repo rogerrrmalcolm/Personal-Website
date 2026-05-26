@@ -43,6 +43,12 @@ const projects = [
 ]
 
 export default function Projects() {
+  const handlePointerMove = (event) => {
+    const bounds = event.currentTarget.getBoundingClientRect()
+    event.currentTarget.style.setProperty('--pointer-x', `${event.clientX - bounds.left}px`)
+    event.currentTarget.style.setProperty('--pointer-y', `${event.clientY - bounds.top}px`)
+  }
+
   return (
     <section id="projects" className="projects">
       <div className="container">
@@ -69,6 +75,7 @@ export default function Projects() {
               target="_blank"
               rel="noopener noreferrer"
               className={`project-card ${project.featured ? 'featured' : ''}`}
+              onPointerMove={handlePointerMove}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -76,7 +83,10 @@ export default function Projects() {
             >
               <div className="project-meta">
                 <span className="project-number">{project.id}</span>
-                <span className="project-category">{project.category}</span>
+                <span className="project-category">
+                  {project.featured ? 'Featured / ' : ''}
+                  {project.category}
+                </span>
               </div>
               <div className="project-content">
                 <h3 className="project-title">{project.title}</h3>

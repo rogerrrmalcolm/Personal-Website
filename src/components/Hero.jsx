@@ -16,6 +16,14 @@ const selectedProjects = [
   },
 ]
 
+const capabilities = [
+  'Multi-Agent Workflows',
+  'Research Automation',
+  'Decision-Ready Reporting',
+  'Data Pipelines',
+  'API Engineering',
+]
+
 export default function Hero() {
   return (
     <section id="home" className="hero">
@@ -61,7 +69,10 @@ export default function Hero() {
         >
           <div className="selected-work-header">
             <span>Selected Work</span>
-            <span>Featured</span>
+            <span className="panel-signal">
+              <i />
+              Featured
+            </span>
           </div>
           {selectedProjects.map((project) => (
             <a
@@ -86,6 +97,21 @@ export default function Hero() {
           </p>
         </motion.aside>
       </div>
+      <motion.div
+        className="capability-rail"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.35 }}
+        aria-label="Technical capability areas"
+      >
+        <div className="rail-track">
+          {[...capabilities, ...capabilities].map((capability, index) => (
+            <span key={`${capability}-${index}`} aria-hidden={index >= capabilities.length}>
+              {capability}
+            </span>
+          ))}
+        </div>
+      </motion.div>
     </section>
   )
 }
