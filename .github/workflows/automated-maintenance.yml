@@ -1,0 +1,168 @@
+name: Automated repository maintenance
+
+"on":
+  workflow_call:
+    inputs:
+      force:
+        description: Run an additional maintenance check outside the normal rotation
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  maintain-documentation:
+    if: github.repository_owner == 'rogerrrmalcolm' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Refresh the selected repository's documentation
+        env:
+          FORCE_MAINTENANCE: ${{ inputs.force }}
+          GIT_AUTHOR_NAME: ${{ github.repository_owner }}
+          GIT_AUTHOR_EMAIL: ${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          import subprocess
+          from collections import Counter
+          from datetime import date, datetime
+          from pathlib import Path, PurePosixPath
+          from urllib.parse import unquote, urlsplit
+          from zoneinfo import ZoneInfo
+
+          # Add future public projects here, then install their small-maintenance caller.
+          REPOSITORIES = (
+              "Bastion",
+              "Energy-Conversion-Simulator",
+              "Personal-Website",
+              "HeartRateMonitor",
+              "Retail-Sales-Analysis-With-Visualization-",
+              "Enrichment-Scoring",
+              "AfroLink-landing-page",
+              "Lab-path-Research",
+          )
+          START_DAY = date(2026, 11, 16)
+          MAINTENANCE_DAYS = (2, 5, 6)  # Wednesday, Saturday, Sunday in Toronto.
+          OUTPUT_DIRECTORY = "docs/maintenance/"
+
+
+          def git(*args, check=True):
+              return subprocess.run(["git", *args], check=check, text=True, capture_output=True)
+
+
+          def selected_repository(day):
+              if day < START_DAY or day.weekday() not in MAINTENANCE_DAYS:
+                  return None
+              week = (day - START_DAY).days // 7
+              slot = MAINTENANCE_DAYS.index(day.weekday())
+              return REPOSITORIES[(week * len(MAINTENANCE_DAYS) + slot) % len(REPOSITORIES)]
+
+
+          def tracked_files():
+              return sorted(path for path in git("ls-files", "-z").stdout.split("\0") if path and not path.startswith(OUTPUT_DIRECTORY))
+
+
+          def source_revision():
+              return git("log", "-1", "--format=%H", "--", ".", ":(exclude)docs/maintenance/**", ":(exclude).github/**").stdout.strip() or "No application source commits yet"
+
+
+          def render_reports(day, repository, files, revision):
+              header = [
+                  f"Repository: `{repository}`  ",
+                  f"Checked on: {day.isoformat()} (America/Toronto)  ",
+                  f"Source revision: `{revision}`",
+                  "",
+                  "Generated automatically from tracked files. This records repository housekeeping; it does not represent a feature change.",
+                  "",
+              ]
+              extensions = Counter(PurePosixPath(path).suffix.lower() or "(no extension)" for path in files)
+              folders = Counter(path.split("/", 1)[0] if "/" in path else "(root)" for path in files)
+              inventory = ["# Repository source map", "", *header, f"Tracked files, excluding these maintenance reports: {len(files)}", "", "## File types", "", "| Type | Files |", "| --- | ---: |"]
+              inventory.extend(f"| `{suffix}` | {count} |" for suffix, count in sorted(extensions.items()))
+              inventory.extend(["", "## Top-level locations", "", "| Location | Files |", "| --- | ---: |"])
+              inventory.extend(f"| `{folder}` | {count} |" for folder, count in sorted(folders.items()))
+              inventory.extend(["", "The application source, dependencies, and build settings are unchanged by this report.", ""])
+
+              readmes = [path for path in files if PurePosixPath(path).name.lower() == "readme.md"]
+              broken = []
+              for name in readmes:
+                  content = Path(name).read_text(encoding="utf-8", errors="replace")
+                  for match in re.finditer(r"!?\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)", content):
+                      raw = match.group(1).strip("<>")
+                      url = urlsplit(raw)
+                      if url.scheme or url.netloc or not url.path:
+                          continue
+                      target = Path(unquote(url.path).lstrip("/")) if url.path.startswith("/") else Path(name).parent / unquote(url.path)
+                      if not target.exists():
+                          broken.append(f"- `{name}` -> `{raw}`")
+              tests = [path for path in files if re.search(r"(^|/)(tests?|__tests__)(/|\.)|(^|/)test_[^/]+|\.(test|spec)\.", path, re.I)]
+              health = ["# Repository housekeeping check", "", *header, "## Documentation checks", "", f"- README files inspected: {len(readmes)}.", f"- Missing local README targets found: {len(broken)}.", "- External URLs and section anchors were not checked.", ""]
+              if broken:
+                  health.extend(["These links need a manual review:", "", *broken, ""])
+              health.extend(["## Declared development commands", ""])
+              commands = []
+              for name in files:
+                  if PurePosixPath(name).name != "package.json":
+                      continue
+                  try:
+                      package = json.loads(Path(name).read_text(encoding="utf-8"))
+                  except (ValueError, OSError):
+                      commands.append(f"- `{name}` could not be parsed as JSON.")
+                      continue
+                  for command in sorted(package.get("scripts", {})):
+                      commands.append(f"- `{name}`: `npm run {command}`")
+              health.extend(commands or ["No npm scripts are declared in tracked package.json files."])
+              health.extend(["", "## Test catalog", "", f"Test-related paths found: {len(tests)}. Commands and tests are catalogued, not executed by this lightweight check.", ""])
+              health.extend(f"- `{path}`" for path in tests[:30])
+              if len(tests) > 30:
+                  health.append(f"- {len(tests) - 30} additional paths omitted.")
+              health.append("")
+              return {
+                  "source-map.md": ("docs: refresh automated source map", "\n".join(inventory)),
+                  "health-check.md": ("docs: record automated repository checks", "\n".join(health)),
+              }
+
+
+          def main():
+              day = datetime.now(ZoneInfo("America/Toronto")).date()
+              repository = os.environ["GITHUB_REPOSITORY"]
+              force = os.environ.get("FORCE_MAINTENANCE", "false").lower() == "true"
+              if repository not in {f"rogerrrmalcolm/{name}" for name in REPOSITORIES}:
+                  raise RuntimeError("Repository is not in the public maintenance list")
+              if os.environ.get("GITHUB_EVENT_NAME") == "push":
+                  print("Maintenance workflow installed and Python syntax checked. Scheduled rotation starts on Wednesday.")
+                  return
+              if not force and selected_repository(day) != repository.split("/", 1)[1]:
+                  print(f"{day}: this repository is not selected for maintenance")
+                  return
+              files = tracked_files()
+              revision = source_revision()
+              changes = 0
+              for name, (message, content) in render_reports(day, repository, files, revision).items():
+                  path = Path(OUTPUT_DIRECTORY) / name
+                  path.parent.mkdir(parents=True, exist_ok=True)
+                  if path.exists() and path.read_text(encoding="utf-8") == content:
+                      continue
+                  path.write_text(content, encoding="utf-8", newline="\n")
+                  git("add", "--", path.as_posix())
+                  git("commit", "-m", f"{message} ({day})")
+                  changes += 1
+              if changes:
+                  git("push", "origin", f"HEAD:refs/heads/{os.environ['GITHUB_REF_NAME']}")
+              print(f"{day}: published {changes} small documentation commits")
+
+
+          if __name__ == "__main__":
+              main()
+          PY
